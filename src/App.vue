@@ -62,20 +62,70 @@ export default {
       if (!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) {
         return;
       }
-      // rock
-      // TODO: implement checks for the rock gesture
-      this.gesture = "ROCK";
+
+      // get all y coordinates of all fingers
+      const thumbBaseY = results.multiHandLandmarks[0][1].y;
+      const thumbTipY = results.multiHandLandmarks[0][4].y;
+      const indexBaseY = results.multiHandLandmarks[0][5].y;
+      const indexTipY = results.multiHandLandmarks[0][8].y;
+      const middleBaseY = results.multiHandLandmarks[0][9].y;
+      const middleTipY = results.multiHandLandmarks[0][12].y;
+      const ringBaseY = results.multiHandLandmarks[0][13].y;
+      const ringTipY = results.multiHandLandmarks[0][16].y;
+      const pinkyBaseY = results.multiHandLandmarks[0][17].y;
+      const pinkyTipY = results.multiHandLandmarks[0][20].y;
+
+      // get x coordinates for index and middle finger tips
+      const indexTipX = results.multiHandLandmarks[0][8].x;
+      const middleTipX = results.multiHandLandmarks[0][12].x;
 
       // paper
-      // TODO: implement checks for the paper gesture
-      this.gesture = "PAPER";
+      // check if all fingers are extended, i.e., y coordinate of tip is smaller than base
+      if (
+        thumbTipY < thumbBaseY &&
+        indexTipY < indexBaseY &&
+        middleTipY < middleBaseY &&
+        ringTipY < ringBaseY &&
+        pinkyTipY < pinkyBaseY
+      ) {
+        console.log("PAPER!");
+        this.gesture = "PAPER";
+        return;
+      }
+
+      // rock
+      // check if all fingers are folded, i.e., y coordinate of tip is larger than base
+      if (
+        // thumbTipY > thumbBaseY &&
+        indexTipY > indexBaseY &&
+        middleTipY > middleBaseY &&
+        ringTipY > ringBaseY &&
+        pinkyTipY > pinkyBaseY
+      ) {
+        console.log("ROCK!");
+        this.gesture = "ROCK";
+        return;
+      }
 
       // scissors
-      // TODO: implement checks for the scissors gesture
-      this.gesture = "SCISSORS";
+      // check if all fingers except index and middle finger are folded and there is sufficient distance between the x coordinates of the index and middle fingers
+      if (
+        indexTipY < indexBaseY &&
+        middleTipY < middleBaseY &&
+        ringTipY > ringBaseY &&
+        pinkyTipY > pinkyBaseY &&
+        this.fingerDiffX(indexTipX, middleTipX) > 0.07
+      ) {
+        console.log("SCISSORS!");
+        this.gesture = "SCISSORS";
+        return;
+      }
 
       // no gesture recognized
       this.gesture = "--";
+    },
+    fingerDiffX(indexTipX, middleTipX) {
+      return indexTipX > middleTipX ? indexTipX - middleTipX : middleTipX - indexTipX;
     }
   },
   // executed after DOM has been loaded
