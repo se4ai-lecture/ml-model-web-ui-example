@@ -1,6 +1,16 @@
 # Using an ML Model in a Web Frontend
-Tutorial T03 of the M.Sc. lecture "Software Engineering for AI-based Systems" (SE4AI)
+(You can work in pairs, if you want to.)
 
+Your task is to implement the basic image recognition functionality for the game "Rock Paper Scissors" (see https://en.wikipedia.org/wiki/Rock_paper_scissors for more details).
+This starting project already contains a basic web app written in [Vue.js](https://vuejs.org/guide/introduction.html), as well as the base prediction functionality using the [MediaPipe Hands](https://google.github.io/mediapipe/solutions/hands) library from Google (based on TensorFlow.js).
+Implement the necessary functionality in the `predictGesture()` function of `src/App.vue`.
+To do this, get familiar with the [hand landmark model](https://google.github.io/mediapipe/solutions/hands#hand-landmark-model) and devise rules to identify each of the three gestures (rock, paper, and scissors).
+
+**Bonus task if you are quick:** implement the remaining functionality to play the game vs. the computer that chooses one of the three gestures, either randomly or using a more [advanced algorithm](https://towardsdatascience.com/how-to-win-over-70-matches-in-rock-paper-scissors-3e17e67e0dab).
+
+## Prerequisites
+- You need a webcam on your device.
+- Download and install Node.js (https://nodejs.org/en/download).
 
 ## Usage
 
@@ -8,10 +18,10 @@ Tutorial T03 of the M.Sc. lecture "Software Engineering for AI-based Systems" (S
 # install dependencies
 npm install
 
-# run dev server with hot reload
+# run dev server with hot reload --> http://localhost:8000/
 npm run serve
 
-# create minified build for production
+# create minified build for production --> ./dist/
 npm run build
 
 # run eslint for code issues
