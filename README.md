@@ -5,6 +5,7 @@ Your task is to implement the basic image recognition functionality for the game
 This starting project already contains a basic web app written in [Vue.js](https://vuejs.org/guide/introduction.html), as well as the base prediction functionality using the [MediaPipe Hands](https://google.github.io/mediapipe/solutions/hands) library from Google (based on TensorFlow.js).
 Implement the necessary functionality in the `predictGesture()` function of `src/App.vue`.
 To do this, get familiar with the [hand landmark model](https://google.github.io/mediapipe/solutions/hands#hand-landmark-model) and devise rules to identify each of the three gestures (rock, paper, and scissors).
+If you are stuck, you can consult the example from [Practical Machine Learning in JavaScript](https://link.springer.com/chapter/10.1007/978-1-4842-6418-8_5#Sec18), but careful: the chapter uses a slightly different Handpose library.
 
 **Bonus task if you are quick:** implement the remaining functionality to play the game vs. the computer that chooses one of the three gestures, either randomly or using a more [advanced algorithm](https://towardsdatascience.com/how-to-win-over-70-matches-in-rock-paper-scissors-3e17e67e0dab).
 
