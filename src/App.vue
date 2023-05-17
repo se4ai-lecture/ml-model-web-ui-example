@@ -17,7 +17,7 @@
 </template>
 
 <script>
-// functionality adapted from https://google.github.io/mediapipe/solutions/hands#javascript-solution-api
+// functionality adapted from https://developers.google.com/mediapipe/solutions/vision/hand_landmarker/web_js
 import { Camera } from "@mediapipe/camera_utils";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Hands, HAND_CONNECTIONS } from "@mediapipe/hands";
@@ -84,7 +84,7 @@ export default {
     // set canvas context for drawing
     this.canvasCtx = this.canvasElement.getContext("2d");
 
-    // instantiate handpose ML model (taken from `public/models/`, filled during build)
+    // instantiate handpose ML model (taken from `./models/`, created and filled during build)
     const hands = new Hands({
       locateFile: (file) => {
         return `./models/${file}`;
