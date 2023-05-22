@@ -17,7 +17,7 @@
 </template>
 
 <script>
-// functionality adapted from https://google.github.io/mediapipe/solutions/hands#javascript-solution-api
+// functionality adapted from https://developers.google.com/mediapipe/solutions/vision/hand_landmarker/web_js
 import { Camera } from "@mediapipe/camera_utils";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Hands, HAND_CONNECTIONS } from "@mediapipe/hands";
@@ -63,7 +63,7 @@ export default {
         return;
       }
 
-      // get all y coordinates of all fingers
+      // get base and tip y coordinates of all fingers
       const thumbBaseY = results.multiHandLandmarks[0][1].y;
       const thumbTipY = results.multiHandLandmarks[0][4].y;
       const indexBaseY = results.multiHandLandmarks[0][5].y;
@@ -75,12 +75,20 @@ export default {
       const pinkyBaseY = results.multiHandLandmarks[0][17].y;
       const pinkyTipY = results.multiHandLandmarks[0][20].y;
 
-      // get x coordinates for index and middle finger tips
+      // get base and tip x coordinates for all fingers
+      const thumbBaseX = results.multiHandLandmarks[0][1].x;
+      const thumbTipX = results.multiHandLandmarks[0][4].x;
+      const indexBaseX = results.multiHandLandmarks[0][5].x;
       const indexTipX = results.multiHandLandmarks[0][8].x;
+      const middleBaseX = results.multiHandLandmarks[0][9].x;
       const middleTipX = results.multiHandLandmarks[0][12].x;
+      const ringBaseX = results.multiHandLandmarks[0][13].x;
+      const ringTipX = results.multiHandLandmarks[0][16].x;
+      const pinkyBaseX = results.multiHandLandmarks[0][17].x;
+      const pinkyTipX = results.multiHandLandmarks[0][20].x;
 
       // paper
-      // check if all fingers are extended, i.e., y coordinate of tip is smaller than base
+      // check if all fingers are extended upwards, i.e., y coordinate of tip is smaller than base
       if (
         thumbTipY < thumbBaseY &&
         indexTipY < indexBaseY &&
@@ -114,7 +122,7 @@ export default {
         middleTipY < middleBaseY &&
         ringTipY > ringBaseY &&
         pinkyTipY > pinkyBaseY &&
-        this.fingerDiffX(indexTipX, middleTipX) > 0.07
+        this.absoluteDistance(indexTipX, middleTipX) > 0.07
       ) {
         console.log("SCISSORS!");
         this.gesture = "SCISSORS";
@@ -124,8 +132,8 @@ export default {
       // no gesture recognized
       this.gesture = "--";
     },
-    fingerDiffX(indexTipX, middleTipX) {
-      return indexTipX > middleTipX ? indexTipX - middleTipX : middleTipX - indexTipX;
+    absoluteDistance(coordinate1, coordinate2) {
+      return Math.abs(coordinate1 - coordinate2);
     }
   },
   // executed after DOM has been loaded
@@ -134,7 +142,7 @@ export default {
     // set canvas context for drawing
     this.canvasCtx = this.canvasElement.getContext("2d");
 
-    // instantiate handpose ML model (taken from `public/models/`, filled during build)
+    // instantiate handpose ML model (taken from `./models/`, created and filled during build)
     const hands = new Hands({
       locateFile: (file) => {
         return `./models/${file}`;
